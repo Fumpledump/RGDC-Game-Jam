@@ -14,7 +14,11 @@ public class GuardScript : MonoBehaviour
     public Vector3 stop2;
     public Vector3 stop3;
     private List<Vector3> stopList = new List<Vector3>();
+
     private bool aware = false;
+    private float detectionTimer = 1;
+    private bool detected;
+
     public float speed;
     private Vector3 direction;
     private float waitTimer = 1;
@@ -78,6 +82,19 @@ public class GuardScript : MonoBehaviour
             waitTimer -= Time.deltaTime;
 
         }
+       
+        //checks if the player is positioned within detection range
+        PlayerDetection();
+
+        if (aware)
+        {
+            detectionTimer -= Time.deltaTime;
+            if(detectionTimer == 0)
+            {
+                detected = true;
+            }
+        }
+
     }
 
     private void GetNextPatrolPoint()
@@ -128,5 +145,16 @@ public class GuardScript : MonoBehaviour
 
         direction = nextPoint - transform.position;
         direction.Normalize();
+    }
+
+    private void PlayerDetection()
+    {
+        //distance formula d=sqrt((x_2-x_1)²+(y_2-y_1)²)
+        float distance = Mathf.Pow((Player.transform.position.x - transform.position.x), 2) + Mathf.Pow((Player.transform.position.y - transform.position.y), 2);
+        distance = Mathf.Sqrt(distance);
+        if(distance < visionRadius)
+        {
+            aware = true;
+        }
     }
 }
