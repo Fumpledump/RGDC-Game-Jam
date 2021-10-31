@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        position = gameObject.Transform.position;
+        position = gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         {
             position.y += speed * Time.deltaTime;
         }
-        else
+        else if(playerInput.y< 0)
         {
             position.y -= speed * Time.deltaTime;
         }
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
         {
             position.x += speed * Time.deltaTime;
         }
-        else
+        else if(playerInput.x < 0)
         {
             position.x -= speed * Time.deltaTime;
         }
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        gameObject.Transform.positon += position;
+        gameObject.transform.position = position;
     }
 
     private void OnFlashLight(InputValue value)
