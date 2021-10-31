@@ -2,20 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public Light flashLight;
-    private float lightTimer = 1;
+    private float lightTimer = 2;
     public int charges = 3;
     private Vector3 position;
     private Vector2 playerInput;
     public float speed = 2;
     public Animator animator;
+    public GameObject goat;
+    public bool hasGoat = false;
+    private Bounds goatBounds;
     // Start is called before the first frame update
     void Start()
     {
         position = gameObject.transform.position;
+        flashLight.enabled = false;
+        goatBounds = goat.GetComponent<SpriteRenderer>().bounds;
     }
 
     // Update is called once per frame
@@ -65,7 +71,24 @@ public class Player : MonoBehaviour
             if (lightTimer <= 0)
             {
                 flashLight.enabled = false;
-                lightTimer = 1;
+                lightTimer = 2;
+            }
+        }
+
+
+        if (goatBounds.Contains(transform.position))
+        {
+            hasGoat = true;
+            goat.SetActive(false);
+
+
+        }
+
+        if (hasGoat)
+        {
+            if(position.x > 6 && position.x < 17 && position.y < 35 && position.y > 23)
+            {
+                SceneManager.LoadScene("WinScene");
             }
         }
 
