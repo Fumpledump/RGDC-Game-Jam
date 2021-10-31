@@ -30,7 +30,7 @@ public class GuardScript : MonoBehaviour
     private float stunTimer = 1;
 
     private float detectionEndTimer = 2;
-
+    bool speedChanged = false;
     public GameObject questionMark;
 
     // Start is called before the first frame update
@@ -96,16 +96,27 @@ public class GuardScript : MonoBehaviour
             }
 
             //checks if the player is positioned within detection range
-            aware = PlayerDetection();
+            if (!aware)
+            {
+                aware = PlayerDetection();
+            }
+            
 
             if (aware)
             {
+               
+                if (!speedChanged)
+                {
+                    speed = speed / 2;
+                    speedChanged = true;
+                }
+               
                 questionMark.SetActive(true);
-                Debug.Log("aware");
+                
                 DetectedPathSet();
 
                 detectionTimer -= Time.deltaTime;
-                if (detectionTimer == 0)
+                if (detectionTimer <= 0)
                 {
                     SceneManager.LoadScene("LossScene");
                 }
@@ -119,6 +130,7 @@ public class GuardScript : MonoBehaviour
 
                     if(detectionEndTimer < 0)
                     {
+                        speed*=2;
                         aware = false;
                         direction = nextPoint - transform.position;
                         direction.Normalize();
