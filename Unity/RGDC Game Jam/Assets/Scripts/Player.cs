@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private Vector3 position;
     private Vector2 playerInput;
     public float speed = 2;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,19 +24,37 @@ public class Player : MonoBehaviour
         if(playerInput.y > 0)
         {
             position.y += speed * Time.deltaTime;
+            animator.SetBool("Up", true);
+            animator.SetBool("Down", false);
         }
         else if(playerInput.y< 0)
         {
             position.y -= speed * Time.deltaTime;
+            animator.SetBool("Up", false);
+            animator.SetBool("Down", true);
+        }
+        else
+        {
+            animator.SetBool("Up", false);
+            animator.SetBool("Down", false);
         }
 
         if(playerInput.x > 0)
         {
             position.x += speed * Time.deltaTime;
+            animator.SetBool("Right", true);
+            animator.SetBool("Left", false);
         }
         else if(playerInput.x < 0)
         {
             position.x -= speed * Time.deltaTime;
+            animator.SetBool("Right", false);
+            animator.SetBool("Left", true);
+        }
+        else
+        {
+            animator.SetBool("Right", false);
+            animator.SetBool("Left", false);
         }
 
 
