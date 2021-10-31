@@ -86,10 +86,7 @@ public class Player : MonoBehaviour
 
         if (hasGoat)
         {
-            if(position.x > 6 && position.x < 17 && position.y < 35 && position.y > 23)
-            {
-                SceneManager.LoadScene("WinScene");
-            }
+            SceneManager.LoadScene("WinScene");
         }
 
         gameObject.transform.position = position;
