@@ -2778,3 +2778,16 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 421.164956 seconds.
+  path: Assets/Audio/Flashlight
+  artifactKey: Guid(55f3b4d9368972c409ad7e67bce35a57) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Audio/Flashlight using Guid(55f3b4d9368972c409ad7e67bce35a57) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c5dc8f0d5447b8c6bbb9c4726bb7919') in 0.039952 seconds 
+  Import took 0.067636 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.039860 seconds.
+Begin MonoManager ReloadAssembly
