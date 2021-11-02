@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -33,22 +33,26 @@ public class GuardScript : MonoBehaviour
     bool speedChanged = false;
     public GameObject questionMark;
 
+    private float distance;
+
     // Start is called before the first frame update
     void Start()
     {
+
+
         questionMark.SetActive(false);
 
         //patrol start point is the position of the gaurd object at the start of play
         patrolStartPoint = transform.position;
-        
+
         //stopList[0] is always the start point
         stopList.Add(patrolStartPoint);
         //checks how many stops along the patrol have been created and adds them to the list
-        if(stop1 != Vector3.zero)
+        if (stop1 != Vector3.zero)
         {
             stopList.Add(stop1);
-            
-            if(stop2 != Vector3.zero)
+
+            if (stop2 != Vector3.zero)
             {
                 stopList.Add(stop2);
 
@@ -71,14 +75,16 @@ public class GuardScript : MonoBehaviour
         if (canMove)
         {
             //updates positon
-            if (!stopped)
+            if (stopped == false)
             {
                 transform.position += direction * speed * Time.deltaTime;
             }
 
 
+
+            distance = Mathf.Sqrt(Mathf.Pow((nextPoint.x - transform.position.x), 2) + Mathf.Pow((nextPoint.y - transform.position.y), 2));
             //if the guard very close to the next point sets the position to the exact point, this is to avoid the GetNextPatrolPoint method not working if the transform.postion isn't perfectly equal to the patrol point
-            if (Mathf.Abs(nextPoint.x - transform.position.x) < 0.01 && Mathf.Abs(nextPoint.y - transform.position.y) < 0.01 && Mathf.Abs(nextPoint.z - transform.position.z) < 0.01)
+            if (distance < 0.5)
             {
                 stopped = true;
                 transform.position = nextPoint;
@@ -100,19 +106,19 @@ public class GuardScript : MonoBehaviour
             {
                 aware = PlayerDetection();
             }
-            
+
 
             if (aware)
             {
-               
+
                 if (!speedChanged)
                 {
                     speed = speed / 2;
                     speedChanged = true;
                 }
-               
+
                 questionMark.SetActive(true);
-                
+
                 DetectedPathSet();
 
                 detectionTimer -= Time.deltaTime;
@@ -120,7 +126,7 @@ public class GuardScript : MonoBehaviour
                 {
                     SceneManager.LoadScene("LossScene");
                 }
-                
+
                 //since I'm reusing the method this should be false if the player is out the detection radius
                 bool playerOutOfAwareness = PlayerDetection();
 
@@ -128,9 +134,9 @@ public class GuardScript : MonoBehaviour
                 {
                     detectionEndTimer -= Time.deltaTime;
 
-                    if(detectionEndTimer < 0)
+                    if (detectionEndTimer < 0)
                     {
-                        speed*=2;
+                        speed *= 2;
                         aware = false;
                         direction = nextPoint - transform.position;
                         direction.Normalize();
@@ -141,7 +147,7 @@ public class GuardScript : MonoBehaviour
         }
         else
         {
-            if(stunTimer < 0)
+            if (stunTimer < 0)
             {
                 canMove = true;
                 stunTimer = 1;
@@ -154,9 +160,9 @@ public class GuardScript : MonoBehaviour
 
     private void GetNextPatrolPoint()
     {
-        
-        
-        if(goingBackWard == false)
+
+
+        if (goingBackWard == false)
         {
             for (int i = 0; i < stopList.Count; i++)
             {
@@ -171,10 +177,10 @@ public class GuardScript : MonoBehaviour
                     else
                     {
                         nextPoint = stopList[i + 1];
-                         //ends loop once correct point has been found
+                        //ends loop once correct point has been found
                         i = stopList.Count;
                     }
-               
+
                 }
             }
         }
@@ -183,9 +189,9 @@ public class GuardScript : MonoBehaviour
         {
             for (int i = 0; i < stopList.Count; i++)
             {
-                if(transform.position == stopList[i])
+                if (transform.position == stopList[i])
                 {
-                    if(i == 0)
+                    if (i == 0)
                     {
                         goingBackWard = false;
                         nextPoint = stopList[i + 1];
@@ -204,7 +210,7 @@ public class GuardScript : MonoBehaviour
 
     private bool PlayerDetection()
     {
-        //distance formula d=sqrt((x_2-x_1)²+(y_2-y_1)²)
+        //distance formula d=sqrt((x_2-x_1)ï¿½+(y_2-y_1)ï¿½)
         float distance = Mathf.Pow((Player.transform.position.x - transform.position.x), 2) + Mathf.Pow((Player.transform.position.y - transform.position.y), 2);
         distance = Mathf.Sqrt(distance);
         if (distance < visionRadius)
@@ -222,4 +228,6 @@ public class GuardScript : MonoBehaviour
         direction = Player.transform.position - transform.position;
         direction.Normalize();
     }
+
+
 }
